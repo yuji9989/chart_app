@@ -1,14 +1,17 @@
 class ChartPagesController < ApplicationController
   def home
     @end_at = Date.today
-    @start_at = @end_at - 6
-    @categories = @start_at.upto(@end_at).to_a
-    @temperature_data = [25, 26, 27.5, 22, 24, 23, 22.5]
-    @illuminance_data = [420, 410, 430, 160, 300, 430, 150]
-    @presence_data = [3, 2, 0, 4, 4, 3, 5]
+    @start_at = @end_at - 30
+    @categories = []
+    (@start_at..@end_at).each do |date|
+      @categories.push I18n.l date, format: :middle
+    end
+    @temperature_data = [25, 26, 27.5, 25, 26, 27.5, 22, 24, 23, 22.5, 25, 26, 27.5, 22, 24, 23, 22.5, 25, 26, 27.5, 22, 24, 23, 22.5, 25, 26, 27.5, 22, 24, 23, 22.5]
+    @illuminance_data = [420, 410, 430, 160, 300, 430, 150, 420, 410, 430, 160, 300, 430, 150]
+    @presence_data = [3, 2, 0, 4, 4, 3, 5, 3, 2, 0, 4, 4, 3, 5]
     
     @h = LazyHighCharts::HighChart.new("graph") do |f|
- #     f.chart(:zoomType => "xy")
+      f.chart(:zoomType => "xy")
       f.title(:text => "温度グラフ")
       f.subtitle(:text => "企画部フロア")
       f.xAxis(:categories => @categories,
